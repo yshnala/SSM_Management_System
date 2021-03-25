@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!--SpringMVC的配置文件，包含網路跳轉邏輯的控制，配置 -->
+	<context:component-scan base-package="com.ecpbm"
+		use-default-filters="false">
+		<!--只掃描controller -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!--配置ViewResolver，方便頁面返回 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/> -->
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!--兩個標準配置 -->
+	<!-- 將springmvc不能處理的請求交給tomcat -->
+	<mvc:default-servlet-handler />
+	<!-- 能支持springmvc更高級的一些功能，JSR303校驗，快捷的ajax...映射動態請求 -->
+	<mvc:annotation-driven />
+	
+	<!-- 文件上傳 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 設置上傳文件的最大尺寸為1MB -->
+		<property name="maxUploadSize" value="1048576" />
+		<!-- 編碼 -->
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+
+</beans>
